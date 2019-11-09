@@ -597,6 +597,13 @@ export class MyApp {
 
     useTestRom(){
         this.smbMode = false;
+        try
+        {
+            //scroll back to top
+            document.body.scrollTop = 0; // For Safari
+            document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+        }catch(error){}
+
         app.configureEditor();
     }
 
@@ -740,7 +747,7 @@ export class MyApp {
         this.inputController.loop();
 
         this.nes.inputController = this.inputController;
-
+        $("#loadingDiv2").hide();
         $('#mainCard').css("visibility", "visible");
     }
 
