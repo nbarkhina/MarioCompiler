@@ -443,9 +443,6 @@ define(["require", "exports", "./input_controller", "./nes"], function (require,
             //screen then don't do mobile mode
             if (window.innerWidth > 600)
                 this.mobileMode = false;
-            if (this.mobileMode) {
-                $("#cardDiv").width("18rem");
-            }
         }
         configEmulator() {
             this.getAudioContext();

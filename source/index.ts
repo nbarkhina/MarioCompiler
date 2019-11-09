@@ -533,9 +533,6 @@ export class MyApp {
         if (window.innerWidth > 600)
             this.mobileMode = false;
 
-        if (this.mobileMode){
-            $("#cardDiv").width("18rem");
-        }
 
     }
 

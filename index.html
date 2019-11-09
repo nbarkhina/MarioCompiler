@@ -625,6 +625,9 @@
     </div>
 
     <script type="text/javascript">
+        if (window.innerWidth < 600){
+            $("#cardDiv").width("18rem");
+        }
         var rando = Math.floor(Math.random() * Math.floor(100000));
         var script = document.createElement('script');
         script.src = 'https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js';
