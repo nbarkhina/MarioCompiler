@@ -1,8 +1,6 @@
-declare var requirejs, require,$;
-
 requirejs.config({
     paths: {
-        "vs": "node_modules/monaco-editor/min/vs",
+        "vs": "../node_modules/monaco-editor/min/vs",
     },
     urlArgs: function (id, url) {
         var rando = Math.floor(Math.random() * Math.floor(100000));
@@ -11,5 +9,6 @@ requirejs.config({
         return args;
     }
 });
-require(["index"],function(){
+require(["index"], function () {
 });
+//# sourceMappingURL=config.js.map

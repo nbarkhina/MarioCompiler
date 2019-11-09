@@ -22,7 +22,9 @@ To Build the project first install TypeScript and the dependencies
 
 `npm install`
 
-Then run the TypeScript Compiler to build the JavaScript Files
+Then go into the source folder and run the TypeScript Compiler to build the JavaScript Files
+
+`cd source`
 
 `tsc`
 
