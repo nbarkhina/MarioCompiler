@@ -46,11 +46,11 @@ define(["require", "exports", "./input_controller", "./nes"], function (require,
             document.getElementById('file-upload').addEventListener('change', this.uploadRom.bind(this));
             this.nes = new nes_1.Nes();
             this.createDB();
-            this.finishedLoading();
             this.initRivets();
             this.detectMobile();
             this.calculateInitialHeight();
             this.setHeight();
+            this.finishedLoading();
         }
         runUnitTests() {
             let testsPassed = true;

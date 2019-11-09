@@ -48,11 +48,11 @@ export class MyApp {
         this.nes = new Nes();
 
         this.createDB();
-        this.finishedLoading();
         this.initRivets();
         this.detectMobile();
         this.calculateInitialHeight();
         this.setHeight();
+        this.finishedLoading();
 
 
 
