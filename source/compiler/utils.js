@@ -21,29 +21,30 @@ util.prototype.open_file_with_node = function (file){
 
 util.prototype.open_file_with_browser = function (file, jQuery) {
     var content;
-    jQuery.ajax({
-            url: file,
-            xhr: function() {
-                    var xhr = $.ajaxSettings.xhr();
-                    if (typeof xhr.overrideMimeType !== 'undefined') {
-                        xhr.overrideMimeType('text/plain; charset=x-user-defined');
-                    }
-                    self.xhr = xhr;
-                    return xhr;
-                },
-            complete: function(xhr, status) {
-                    content = xhr.responseText;
-                },
-            async: false
-        });
-    return content;
-    // console.log('open file: ' + file);
-    // var req = new XMLHttpRequest();
-    //     req.open("GET", file,false);
-    //     req.overrideMimeType("text/plain; charset=x-user-defined");
-    //     req.onerror = () => console.log(`Error loading ${path}: ${req.statusText}`);
-    //     req.send(null);
-    //     return req.responseText;
+    // jQuery.ajax({
+    //         url: file,
+    //         xhr: function() {
+    //                 var xhr = $.ajaxSettings.xhr();
+    //                 // if (typeof xhr.overrideMimeType !== 'undefined') {
+    //                     xhr.overrideMimeType('text/plain; charset=x-user-defined');
+    //                 // }
+    //                 self.xhr = xhr;
+    //                 return xhr;
+    //             },
+    //         complete: function(xhr, status) {
+    //                 content = xhr.responseText;
+    //             },
+    //         async: false
+    //     });
+    // console.log('open file size: ' + content.length);
+    // return content;
+    var req = new XMLHttpRequest();
+        req.open("GET", file,false);
+        req.overrideMimeType("text/plain; charset=x-user-defined");
+        req.onerror = () => console.log(`Error loading ${path}: ${req.statusText}`);
+        req.send(null);
+        console.log('open file size: ' + req.responseText.length);
+        return req.responseText;
 };
 
 util.prototype.write_file = function (filename, data){
