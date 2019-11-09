@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+    "target": "es6",
+    "module": "amd",
+    // "outFile": "./build/build.js",
+    "strict": false,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "watch": false,
+    "sourceMap": true
+    }
+}
