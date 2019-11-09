@@ -1,11 +1,11 @@
 # Mario Compiler
 This is a web based NES Compiler and Emulator which allows you to mess around with the Super Mario Bros source code and see the results in realtime. You will need your own Super Mario Bros rom for it to work. Everything runs in the browser, there is no server side code.
 
-Come and feel what it was like to Develop NES games back in the 80's! View demo here:
+Come and feel what it was like to develop NES games back in the 80's! View demo here:
 
 https://www.neilb.net/MarioCompiler/
 
-Simply make edits in the code editor and then press Ctrl + S to save and recompile the code. 
+Simply make edits in the code editor and then press Ctrl + S to save and recompile. 
 
 ![alt](demo.gif)
 

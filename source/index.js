@@ -289,26 +289,26 @@ define(["require", "exports", "./input_controller", "./nes"], function (require,
             this.logApp();
             //try to load from localStorage
             if (this.smbMode) {
-                $.get('disassembly.asm', (data) => {
+                $.get('source/disassembly.asm', (data) => {
                     window["myEditor"].setValue(data);
                     this.compile();
                 });
             }
             else {
-                $.get('myasm.asm', (data) => {
+                $.get('source/myasm.asm', (data) => {
                     window["myEditor"].setValue(data);
                     this.compile();
                 });
             }
         }
         myasmSRC() {
-            $.get('myasm.asm', (data) => {
+            $.get('source/myasm.asm', (data) => {
                 window["myEditor"].setValue(data);
                 this.compile();
             });
         }
         marioSRC() {
-            $.get('disassembly.asm', (data) => {
+            $.get('source/disassembly.asm', (data) => {
                 window["myEditor"].setValue(data);
                 this.compile();
             });

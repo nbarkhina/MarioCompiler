@@ -1,10 +1,10 @@
 if (typeof define !== 'function') { var define = require('amdefine')(module);}
 
 define([
-    './analyzer.js',
-    './c6502.js',
-    './cartridge.js',
-    './directives.js'
+    '../source/compiler/analyzer.js',
+    '../source/compiler/c6502.js',
+    '../source/compiler/cartridge.js',
+    '../source/compiler/directives.js'
     ], function(analyzer, c6502, cartridge, directives) {
 
     var compiler = function(){

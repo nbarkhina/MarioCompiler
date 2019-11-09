@@ -1,6 +1,5 @@
 import { InputController, KeyMappings } from "./input_controller";
 import { Nes } from "./nes";
-import { SaveState } from "./savestate";
 
 declare var rivets, $, NoSleep,  toastr, compiler;
 
@@ -339,12 +338,12 @@ export class MyApp {
 
         //try to load from localStorage
         if (this.smbMode){
-            $.get('disassembly.asm', (data) => {
+            $.get('source/disassembly.asm', (data) => {
                 window["myEditor"].setValue(data);
                 this.compile();
             })
         }else{
-            $.get('myasm.asm', (data) => {
+            $.get('source/myasm.asm', (data) => {
                 window["myEditor"].setValue(data);
                 this.compile();
             })
@@ -356,14 +355,14 @@ export class MyApp {
 
 
     myasmSRC(){
-        $.get('myasm.asm', (data) => {
+        $.get('source/myasm.asm', (data) => {
             window["myEditor"].setValue(data);
             this.compile();
         })
     }
 
     marioSRC(){
-        $.get('disassembly.asm', (data) => {
+        $.get('source/disassembly.asm', (data) => {
             window["myEditor"].setValue(data);
             this.compile();
         })
