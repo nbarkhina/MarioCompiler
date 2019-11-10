@@ -28,4 +28,19 @@ Then go into the source folder and run the TypeScript Compiler to build the Java
 
 `tsc`
 
+# Libraries
+This app makes use of the following libraries:
+
+- Bootstrap - overall styling and mobile layout 
+- JQuery - some DOM manipulation and Ajax calls
+- Toastr - toast notifications 
+- RivetsJS - lightweight model view JavaScript Framework
+- Monaco Editor - Code Editor
+- TypeScript - strongly typed superset of javascript 
+- RequireJS - AMD module loader
+- ToneJS - sound emulation
+- NoSleepJS - prevent screen from going to sleep on mobile 
+
+
+
 
