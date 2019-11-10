@@ -54,9 +54,6 @@ export class MyApp {
         this.setHeight();
         this.finishedLoading();
 
-
-
-
     }
 
     runUnitTests(): boolean {
@@ -479,9 +476,8 @@ export class MyApp {
 
     finishedLoading() {
         $('#loadingDiv').hide();
-        $('#btnLoadRom').prop("disabled", false);
+        $('#btnSampleCode').prop("disabled", false);
         $('#btnUploadRom').prop("disabled", false);
-        $('#btnLoadDB').prop("disabled", false);
     }
 
 

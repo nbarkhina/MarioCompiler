@@ -136,8 +136,8 @@
                                   The code is assembled on the fly using the Doppelganger SMB Dissasembly and graphics from the rom you upload. 
                                   This was created purely for educational purposes and to admire what it was like writing games for the NES. And also to appreciate the amazing work Nintendo pulled off
                                   using 6502 assembly and brilliant game design. Or you can just learn about NES Development using the sample code. </p>
-                              <button class="btn btn-primary mt-2 mb-2" onclick="myApp.useTestRom()" >Use Sample Code</button>
-                              <button id="btnUploadRom" class="btn btn-primary mt-2 mb-2" onclick="myApp.uploadBrowse()"
+                              <button id="btnSampleCode" class="btn btn-primary mt-2 mb-2" onclick="myApp.useTestRom()" disabled>Use Sample Code</button>
+                              <button id="btnUploadRom" class="btn btn-primary mt-2 mb-2" onclick="myApp.uploadBrowse()" disabled
                                 >Upload Rom</button>
                             </div>
                           </div>
@@ -195,7 +195,7 @@
 
                                 <div class="mb-2">
                                     <button type="button" class="btn btn-primary" onclick="myApp.btnDisableSprites()"
-                                        rv-if="data.nes.debugDisableSprites | ev '==false'">Disable Sprites</button>
+                                        rv-if="data.nes.debugDisableSprites | ev '==false'" >Disable Sprites</button>
                                     <button type="button" class="btn btn-primary" onclick="myApp.btnDisableSprites()"
                                         rv-if="data.nes.debugDisableSprites | ev '==true'">Enable Sprites</button>
                                     <button type="button" class="btn btn-primary" onclick="myApp.btnMemPrev()">

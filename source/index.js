@@ -399,9 +399,8 @@ define(["require", "exports", "./input_controller", "./nes"], function (require,
         }
         finishedLoading() {
             $('#loadingDiv').hide();
-            $('#btnLoadRom').prop("disabled", false);
+            $('#btnSampleCode').prop("disabled", false);
             $('#btnUploadRom').prop("disabled", false);
-            $('#btnLoadDB').prop("disabled", false);
         }
         //needs to be called after
         //user input or button click
