@@ -13,6 +13,7 @@ export class Cartridge{
     chrDataAll:Uint8Array; //all chr data
     mapperType:number;
     mirroring:number;
+    badrom = false;
     
 
     constructor(nes:Nes){
@@ -28,55 +29,82 @@ export class Cartridge{
 
     loadChr(rom_string:string){
 
-        let header = new Uint8Array(16);
-
-        //read the header
-        for(let i=0;i<16;i++)
+        try
         {
-            //do we need to & with 0xff?
-            //i think so because javascript stores strings as unicode not UTF=8
-            header[i] = rom_string.charCodeAt(i) & 0xff;
+            let header = new Uint8Array(16);
+
+            //read the header
+            for(let i=0;i<16;i++)
+            {
+                //do we need to & with 0xff?
+                //i think so because javascript stores strings as unicode not UTF=8
+                header[i] = rom_string.charCodeAt(i) & 0xff;
+            }
+    
+            header[0];//N
+            header[1];//E
+            header[2];//S
+            header[3];//blank
+    
+            let prgBanks = header[4];
+            let chrBanks = header[5];
+    
+    
+            console.log('prgBanks: ' + prgBanks);
+            console.log('chrBanks: ' + chrBanks);
+    
+            let prgSize = prgBanks * 16 * 1024;
+            let chrSize = chrBanks * 8 * 1024;
+            
+            this.chrDataMario = new Uint8Array(8*1024);
+    
+            let file_pointer = 16;
+    
+    
+            //read the program data
+            for(let i=0;i<prgSize;i++)
+            {
+                file_pointer++;
+            }
+    
+    
+            //init 2k usable character data
+            for(let i=0;i<this.chrDataMario.length;i++)
+            {
+                if (chrSize>0)
+                    this.chrDataMario[i] = rom_string.charCodeAt(file_pointer) & 0xff;
+                else
+                    this.chrDataMario[i] = 0; //if there's no chr data just init to 0
+    
+                file_pointer++;
+            }
+        }catch(error){
+
         }
-
-        header[0];//N
-        header[1];//E
-        header[2];//S
-        header[3];//blank
-
-        let prgBanks = header[4];
-        let chrBanks = header[5];
-
-
-        console.log('prgBanks: ' + prgBanks);
-        console.log('chrBanks: ' + chrBanks);
-
-        let prgSize = prgBanks * 16 * 1024;
-        let chrSize = chrBanks * 8 * 1024;
         
-        this.chrDataMario = new Uint8Array(8*1024);
 
-        let file_pointer = 16;
-
-
-        //read the program data
-        for(let i=0;i<prgSize;i++)
-        {
-            file_pointer++;
+        //do some additional checks to verify smb rom
+        if (this.chrDataMario!=null){
+            if (this.chrDataMario[0]!=3) this.badrom=true;
+            if (this.chrDataMario[1]!=15) this.badrom=true;
+            if (this.chrDataMario[2]!=31) this.badrom=true;
+            if (this.chrDataMario[3]!=31) this.badrom=true;
+            if (this.chrDataMario[4]!=28) this.badrom=true;
+            if (this.chrDataMario[5]!=36) this.badrom=true;
+            if (this.chrDataMario[6]!=38) this.badrom=true;
+            if (this.chrDataMario[7]!=102) this.badrom=true;
+            if (this.chrDataMario[8]!=0) this.badrom=true;
+            if (this.chrDataMario[9]!=0) this.badrom=true;
         }
 
-
-        //init 2k usable character data
-        for(let i=0;i<this.chrDataMario.length;i++)
-        {
-            if (chrSize>0)
-                this.chrDataMario[i] = rom_string.charCodeAt(file_pointer) & 0xff;
-            else
-                this.chrDataMario[i] = 0; //if there's no chr data just init to 0
-
-            file_pointer++;
+        if (this.badrom){
+            this.chrDataMario = null;
+            console.log('bad rom');
+            setTimeout(() => {
+                window["myApp"].lblCompiler = 'Bad Rom';
+                $("#lblCompiler").show();
+            }, 2000);
         }
-
-
 
         console.log('finished parsing chr data');
     }
@@ -208,6 +236,7 @@ export class Cartridge{
         {
             console.log('smb rom detected');
             this.nes.rom_name='smb.nes';
+
         }
 
 
