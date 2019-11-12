@@ -1594,5 +1594,4 @@ VRAMTableLow2:
   
   .bank 2
   .org $0000
-  ; .incbin "mario.chr"   ;includes 8KB graphics file from SMB1
   .incbin "alternate.chr"
