@@ -4802,16 +4802,15 @@ E_GroundArea15:
 E_GroundArea16:
       .db $ff
 
-;level 8-1
-E_GroundArea17:
-      .db $2b, $82, $ab, $38, $de
 
 ;;;;;;;;;;;;;;;;;;;;;;
 ;;
 	.bank 1
 	.org $A000
 
-;level 8-1 - con't
+;level 8-1
+E_GroundArea17:
+      .db $2b, $82, $ab, $38, $de
       .db $42, $e2, $1b, $b8, $eb
       .db $3b, $db, $80, $8b, $b8, $1b, $82, $fb, $b8, $7b
       .db $80, $fb, $3c, $5b, $bc, $7b, $b8, $1b, $8e, $cb
@@ -7856,16 +7855,17 @@ AlterYP: sty <$07                      ;store Y here
          adc <$07                      ;add carry plus contents of $07 to vertical high byte
          sta <SprObject_Y_HighPos,x    ;store as new vertical high byte
          lda SprObject_Y_MoveForce,x
-         clc
-         adc <$00                      ;add downward movement amount to contents of $0433
-         sta SprObject_Y_MoveForce,x
-         lda <SprObject_Y_Speed,x      ;add carry to vertical speed and store
+         jmp Bank2Start
 
 ;;;;;;;;;;;;;;;;;;;;;;
 ;;
 	.bank 2
 	.org $C000
-
+Bank2Start: 
+         clc
+         adc <$00                      ;add downward movement amount to contents of $0433
+         sta SprObject_Y_MoveForce,x
+         lda <SprObject_Y_Speed,x      ;add carry to vertical speed and store
          adc #$00
          sta <SprObject_Y_Speed,x
          cmp <$02                      ;compare to maximum speed
@@ -11204,7 +11204,7 @@ ExScrnBd: rts                     ;leave
 ;-------------------------------------------------------------------------------------
 
 ;some unused space
-      .db $ff, $ff, $ff
+    ;   .db $ff, $ff, $ff
 
 ;-------------------------------------------------------------------------------------
 ;$01 - enemy buffer offset
@@ -12578,23 +12578,22 @@ CInvu: cpy #Spiny               ;if enemy object is spiny, branch
 YesIn: jsr ChkUnderEnemy        ;if enemy object < $07, or = $12 or $2e, do this sub
        bne HandleEToBGCollision ;if block underneath enemy, branch
 NoEToBGCollision:
-       jmp ChkForRedKoopa       ;otherwise skip and do something else
+      jmp ChkForRedKoopa       ;otherwise skip and do something else
 
 ;--------------------------------
 ;$02 - vertical coordinate from block buffer routine
 
-HandleEToBGCollision:
-      jsr ChkForNonSolids       ;if something is underneath enemy, find out what
-      beq NoEToBGCollision      ;if blank $26, coins, or hidden blocks, jump, enemy falls through
-      ;;;cmp #$23  this instruction got cut between banks.  (?)
-      .db $C9
 
 
 ;;;;;;;;;;;;;;;;;;;;;;
 ;;
 	.bank 3
 	.org $E000
-
+HandleEToBGCollision:
+      jsr ChkForNonSolids       ;if something is underneath enemy, find out what
+      beq NoEToBGCollision      ;if blank $26, coins, or hidden blocks, jump, enemy falls through
+      ;;;cmp #$23  this instruction got cut between banks.  (?)
+      .db $C9
       .db $23	;latter half of instruction above
 
       bne LandEnemyProperly     ;check for blank metatile $23 and branch if not found
@@ -13252,7 +13251,7 @@ RetYC: and #%00001111              ;and mask out high nybble
 ;-------------------------------------------------------------------------------------
 
 ;unused byte
-      .db $ff
+    ;   .db $ff
 
 ;-------------------------------------------------------------------------------------
 ;$00 - offset to vine Y coordinate adder
@@ -15199,7 +15198,7 @@ SetHFAt: ora <$04                    ;add other OAM attributes if necessary
 ;-------------------------------------------------------------------------------------
 
 ;unused space
-        .db $ff, $ff, $ff, $ff, $ff, $ff
+        ; .db $ff, $ff, $ff, $ff, $ff, $ff
 
 ;-------------------------------------------------------------------------------------
 
