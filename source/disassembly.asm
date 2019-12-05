@@ -663,8 +663,8 @@ WarmBootOffset        = $d6
 ColdBootOffset        = $fe
 TitleScreenDataOffset = $1EC0
 SoundMemory           = $07b0
-SwimTileRepOffset     = $EEB5		;;PlayerGraphicsTable + $9e
-MusicHeaderOffsetData = $F90C 		;;MusicHeaderData - 1
+; SwimTileRepOffset     = $EEB5		;;PlayerGraphicsTable + $9e
+; MusicHeaderOffsetData = $F90C 		;;MusicHeaderData - 1
 MHD                   = $F90D		;;MusicHeaderData
 
 A_Button              = %10000000
@@ -818,8 +818,7 @@ InitBuffer:    ldx VRAM_Buffer_Offset,y
                sta VRAM_Buffer_AddrCtrl  ;reinit address control to $0301
                lda Mirror_PPU_CTRL_REG2  ;copy mirror of $2001 to register
                sta PPU_CTRL_REG2
-               ;Disabled Sound Engine - will need updates to the compiler to get this working
-               ;   jsr SoundEngine           ;play sound
+               jsr SoundEngine           ;play sound
                jsr ReadJoypads           ;read joypads
                jsr PauseRoutine          ;handle pause
                jsr UpdateTopScore
@@ -3093,7 +3092,7 @@ ExTrans:   rts
 
 DoNothing1:
       lda #$ff       ;this is residual code, this value is
-      sta $06c9      ;not used anywhere in the program
+      ; sta $06c9      ;not used anywhere in the program
 DoNothing2:
       rts
 
@@ -14625,7 +14624,7 @@ CntPl:  lda <GameEngineSubroutine    ;if executing specific game engine routine,
 SwimKT: lda PlayerSize              ;check player's size
         beq BigKTS                  ;if big, use first tile
         lda Sprite_Tilenumber+24,y  ;check tile number of seventh/eighth sprite
-        cmp SwimTileRepOffset       ;against tile number in player graphics table
+        cmp PlayerGraphicsTable+158       ;against tile number in player graphics table
         beq ExPGH                   ;if spr7/spr8 tile number = value, branch to leave
         inx                         ;otherwise increment X for second tile
 BigKTS: lda SwimKickTileNum,x       ;overwrite tile number in sprite 7/8
@@ -15826,7 +15825,7 @@ FindEventMusicHeader:
         bcc FindEventMusicHeader
 
 LoadHeader:
-        lda MusicHeaderOffsetData,y  ;load offset for header
+        lda MusicHeaderData-1,y  ;load offset for header
         tay
         lda MusicHeaderData,y        ;now load the header
         sta <NoteLenLookupTblOfs
@@ -16124,7 +16123,9 @@ LoadWaterEventMusEnvData:
 ;music header offsets
 
 MusicHeaderData:
-    .db $00
+      .db $a5, $59, $54, $64, $59, $3c, $31, $4b, $69, $5e, $46, $4f, $36, $8d, $36, $4b, $8d
+      .db $69, $69, $6f, $75, $6f, $7b, $6f, $75, $6f, $7b, $81, $87, $81, $8d, $69, $69, $93
+      .db $99, $93, $9f, $93, $99, $93, $9f, $81, $87, $81, $8d, $93, $99, $93, $9f
     ;   .db DeathMusHdr-MHD           ;event music
     ;   .db GameOverMusHdr-MHD
     ;   .db VictoryMusHdr-MHD

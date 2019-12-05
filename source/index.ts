@@ -1,7 +1,7 @@
 import { InputController, KeyMappings } from "./input_controller";
 import { Nes } from "./nes";
 
-declare var rivets, $, NoSleep,  toastr, compiler;
+declare var rivets, $, NoSleep,  toastr, compiler,Diff;
 
 export class Rom {
     name: string = '';
@@ -325,7 +325,8 @@ export class MyApp {
         this.newRom();
     }
 
-
+    originalSrc:string = '';
+    newSrc:string = '';
 
     initialLoad() {
         this.configEmulator();
@@ -333,15 +334,16 @@ export class MyApp {
 
         this.logApp();
 
-        //try to load from localStorage
         if (this.smbMode){
             $.get('source/disassembly.asm', (data) => {
                 window["myEditor"].setValue(data);
+                this.originalSrc = data;
                 this.compile();
             })
         }else{
             $.get('source/myasm.asm', (data) => {
                 window["myEditor"].setValue(data);
+                this.originalSrc = data;
                 this.compile();
             })
         }
@@ -373,6 +375,7 @@ export class MyApp {
 
             let asm_code = window["myEditor"].getValue();
             compiled_data = compiler.nes_compiler(asm_code);
+            this.newSrc = asm_code;
             
 
             if (this.nesLoaded == false) {
@@ -424,7 +427,32 @@ export class MyApp {
         }
     }
 
-    //put compile function into it's own function
+    getDiffs():any[] {
+        var alldiffs = [];
+        if (this.newSrc.length<600000)
+            return alldiffs;
+        try {
+            var diffs = Diff.diffLines(this.originalSrc, this.newSrc);
+            let linecounter = 1;
+            for (let i = 0; i < diffs.length; i++) {
+                let diff = diffs[i];
+                if (diff.removed) {
+                    let newDiff = { status: 'removed', value: diff.value, line: linecounter };
+                    alldiffs.push(newDiff);
+                }
+                else if (diff.added) {
+                    let newDiff = { status: 'added', value: diff.value, line: linecounter };
+                    alldiffs.push(newDiff);
+                    linecounter += diff.count;
+                }
+                else {
+                    linecounter += diff.count;
+                }
+            }
+        } catch (error) {
+        }
+        return alldiffs;
+    }
 
 
 
@@ -484,6 +512,7 @@ export class MyApp {
     //needs to be called after
     //user input or button click
     getAudioContext() {
+        console.log('getting audio context');
         try {
             this.audioContext = new AudioContext();
 

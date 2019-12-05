@@ -28,8 +28,9 @@ define(["require", "exports", "./input_controller", "./nes"], function (require,
             this.romdevMode = false;
             this.lblCompiler = '';
             this.smbMode = true;
+            this.originalSrc = '';
+            this.newSrc = '';
             this.nesLoaded = false;
-            //put compile function into it's own function
             this.min_height = 400;
             this.height = 0;
             this.fileSize = 0;
@@ -287,16 +288,17 @@ define(["require", "exports", "./input_controller", "./nes"], function (require,
             this.configEmulator();
             this.rom_name = 'app.nes';
             this.logApp();
-            //try to load from localStorage
             if (this.smbMode) {
                 $.get('source/disassembly.asm', (data) => {
                     window["myEditor"].setValue(data);
+                    this.originalSrc = data;
                     this.compile();
                 });
             }
             else {
                 $.get('source/myasm.asm', (data) => {
                     window["myEditor"].setValue(data);
+                    this.originalSrc = data;
                     this.compile();
                 });
             }
@@ -318,6 +320,7 @@ define(["require", "exports", "./input_controller", "./nes"], function (require,
                 let compiled_data = '';
                 let asm_code = window["myEditor"].getValue();
                 compiled_data = compiler.nes_compiler(asm_code);
+                this.newSrc = asm_code;
                 if (this.nesLoaded == false) {
                     app.nes_load_upload('canvas', compiled_data);
                     this.nesLoaded = true;
@@ -365,6 +368,33 @@ define(["require", "exports", "./input_controller", "./nes"], function (require,
                 this.nes.PAUSED = true;
             }
         }
+        getDiffs() {
+            var alldiffs = [];
+            if (this.newSrc.length < 600000)
+                return alldiffs;
+            try {
+                var diffs = Diff.diffLines(this.originalSrc, this.newSrc);
+                let linecounter = 1;
+                for (let i = 0; i < diffs.length; i++) {
+                    let diff = diffs[i];
+                    if (diff.removed) {
+                        let newDiff = { status: 'removed', value: diff.value, line: linecounter };
+                        alldiffs.push(newDiff);
+                    }
+                    else if (diff.added) {
+                        let newDiff = { status: 'added', value: diff.value, line: linecounter };
+                        alldiffs.push(newDiff);
+                        linecounter += diff.count;
+                    }
+                    else {
+                        linecounter += diff.count;
+                    }
+                }
+            }
+            catch (error) {
+            }
+            return alldiffs;
+        }
         calculateInitialHeight() {
             this.height = window.innerHeight - 300;
             if (this.height < this.min_height)
@@ -405,6 +435,7 @@ define(["require", "exports", "./input_controller", "./nes"], function (require,
         //needs to be called after
         //user input or button click
         getAudioContext() {
+            console.log('getting audio context');
             try {
                 this.audioContext = new AudioContext();
             }
