@@ -14,6 +14,7 @@ export class Cartridge{
     mapperType:number;
     mirroring:number;
     badrom = false;
+    smbChecksPassed = false;
     
 
     constructor(nes:Nes){
@@ -104,6 +105,9 @@ export class Cartridge{
                 window["myApp"].lblCompiler = 'Bad Rom';
                 $("#lblCompiler").show();
             }, 2000);
+        }
+        else{
+            this.smbChecksPassed = true;
         }
 
         console.log('finished parsing chr data');
@@ -232,11 +236,10 @@ export class Cartridge{
         }
 
         //hack to detect SMB rom and remove sprite 0
-        if (this.nes.memory.read(0xE000)==0x23)
+        if (this.smbChecksPassed)
         {
             console.log('smb rom detected');
             this.nes.rom_name='smb.nes';
-
         }
 
 

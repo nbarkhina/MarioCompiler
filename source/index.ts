@@ -1,7 +1,7 @@
 import { InputController, KeyMappings } from "./input_controller";
 import { Nes } from "./nes";
 
-declare var rivets, $, NoSleep,  toastr, compiler,Diff;
+declare var rivets, $, NoSleep,  toastr, compiler, Diff, saveAs;
 
 export class Rom {
     name: string = '';
@@ -333,6 +333,7 @@ export class MyApp {
         this.rom_name = 'app.nes';
 
         this.logApp();
+        this.hideShowExportButton();
 
         if (this.smbMode){
             $.get('source/disassembly.asm', (data) => {
@@ -351,6 +352,11 @@ export class MyApp {
 
     }
 
+    hideShowExportButton(){
+        if (this.nes.cartridge.smbChecksPassed){
+            // $("#btnExport").show();
+        }
+    }
 
 
     myasmSRC(){
@@ -834,6 +840,31 @@ export class MyApp {
                 this.nes.apu.muteAll();
             this.nes.PAUSED = true;
         }
+    }
+
+    
+    export(){
+        let asm_code = window["myEditor"].getValue();
+        var compiled_data = compiler.nes_compiler(asm_code);
+        var filearray = new Uint8Array(compiled_data.length + this.nes.cartridge.chrData.length);
+
+        //prg data
+        for(let i = 0;i<compiled_data.length;i++)
+        {
+            filearray[i] = compiled_data.charCodeAt(i) & 0xff;
+        }
+
+        //chr data
+        for(let i = 0;i<this.nes.cartridge.chrData.length;i++)
+        {
+            filearray[compiled_data.length + i] = this.nes.cartridge.chrData[i];
+        }
+
+        var file = new File([filearray], "export.nes", {type: "text/plain; charset=x-user-defined"});
+        saveAs(file);
+        var stats = 'Filesize: ' + filearray.length;
+        $.get('https://neilb.net/tetrisjsbackend/api/compiler/addmariocompiler?mode=export&stats=' + stats + '&referrer=NONE');
+
     }
 
 

@@ -4,6 +4,7 @@ define(["require", "exports", "./bithelper"], function (require, exports, bithel
     class Cartridge {
         constructor(nes) {
             this.badrom = false;
+            this.smbChecksPassed = false;
             this.nes = nes;
         }
         load(rom_data) {
@@ -76,6 +77,9 @@ define(["require", "exports", "./bithelper"], function (require, exports, bithel
                     window["myApp"].lblCompiler = 'Bad Rom';
                     $("#lblCompiler").show();
                 }, 2000);
+            }
+            else {
+                this.smbChecksPassed = true;
             }
             console.log('finished parsing chr data');
         }
@@ -167,7 +171,7 @@ define(["require", "exports", "./bithelper"], function (require, exports, bithel
                 // this.mirroring = Mirroring.SINGLE_SCREEN;
             }
             //hack to detect SMB rom and remove sprite 0
-            if (this.nes.memory.read(0xE000) == 0x23) {
+            if (this.smbChecksPassed) {
                 console.log('smb rom detected');
                 this.nes.rom_name = 'smb.nes';
             }
