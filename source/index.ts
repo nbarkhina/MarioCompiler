@@ -860,10 +860,23 @@ export class MyApp {
             filearray[compiled_data.length + i] = this.nes.cartridge.chrData[i];
         }
 
-        var file = new File([filearray], "export.nes", {type: "text/plain; charset=x-user-defined"});
-        saveAs(file);
-        var stats = 'Filesize: ' + filearray.length;
-        $.get('https://neilb.net/tetrisjsbackend/api/compiler/addmariocompiler?mode=export&stats=' + stats + '&referrer=NONE');
+        //microsoft edge fix
+        if (navigator.msSaveBlob){
+            console.log('ms edge save');
+            var blob = new Blob([filearray],{type: "text/plain; charset=x-user-defined"});
+            (blob as any).name = "export.nes";
+            (blob as any).lastModifiedDate = new Date;
+            saveAs(blob);
+        }else{
+            var file = new File([filearray], "export.nes", {type: "text/plain; charset=x-user-defined"});
+            saveAs(file);
+        }
+        
+        
+        if (document.location.href.toLocaleLowerCase().indexOf('neilb.net')>1){
+            var stats = 'Filesize: ' + filearray.length;
+            $.get('https://neilb.net/tetrisjsbackend/api/compiler/addmariocompiler?mode=export&stats=' + stats + '&referrer=NONE');
+        }
 
     }
 
