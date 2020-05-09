@@ -138,7 +138,6 @@ NMI:
   STA $4014       ; set the high byte (02) of the RAM address, start OAM transfer
 
   ;do any nametable changes here - last chance before PPU Cleanup
-  JSR ConvertScore
   JSR UpdateScore 
     
 
@@ -176,6 +175,7 @@ NMI:
   JSR UpdateEnemy
   JSR CheckEnemyCollision
   JSR UpdateSprites  
+  JSR ConvertScore
 
   
 
