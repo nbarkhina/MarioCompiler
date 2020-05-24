@@ -4805,8 +4805,8 @@ E_GroundArea16:
 
 ;;;;;;;;;;;;;;;;;;;;;;
 ;;
-	.bank 1
-	.org $A000
+	; .bank 1
+	; .org $A000
 
 ;level 8-1
 E_GroundArea17:
@@ -7859,8 +7859,8 @@ AlterYP: sty <$07                      ;store Y here
 
 ;;;;;;;;;;;;;;;;;;;;;;
 ;;
-	.bank 2
-	.org $C000
+	; .bank 2
+	; .org $C000
 Bank2Start: 
          clc
          adc <$00                      ;add downward movement amount to contents of $0433
@@ -12587,8 +12587,8 @@ NoEToBGCollision:
 
 ;;;;;;;;;;;;;;;;;;;;;;
 ;;
-	.bank 3
-	.org $E000
+	; .bank 3
+	; .org $E000
 HandleEToBGCollision:
       jsr ChkForNonSolids       ;if something is underneath enemy, find out what
       beq NoEToBGCollision      ;if blank $26, coins, or hidden blocks, jump, enemy falls through

@@ -75,6 +75,7 @@ function d_dw(arg, cart) {
 
 
 function d_incbin(arg, cart){
+    cart.banks[0].size+=8192;
     var bin = [];
     var data = utils.open_file(arg);
     for (var i = 0; i < data.length ; i++){

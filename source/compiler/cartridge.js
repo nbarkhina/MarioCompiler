@@ -49,7 +49,9 @@ Cartridge.prototype.set_iNES_mir = function (inesmir){
 
 Cartridge.prototype.set_bank_id = function (id){
     if (this.banks[id] === undefined){
-        this.banks[id] = {code:[], start:null, size:(1024*8)};
+        //will only have one bank 32k long with 8k later for chr
+        if (id==0)
+            this.banks[id] = {code:[], start:null, size:(1024*8*4)};
         this.bank_id = id;
     }
 };

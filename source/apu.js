@@ -586,6 +586,7 @@ define(["require", "exports", "./bithelper"], function (require, exports, bithel
             return note;
         }
     }
+    exports.Note = Note;
     Note.allNotes = [
         'C0', 16.35,
         'C#0', 17.32,
@@ -696,6 +697,5 @@ define(["require", "exports", "./bithelper"], function (require, exports, bithel
         'A#8', 7458.62,
         'B8', 7902.13,
     ];
-    exports.Note = Note;
 });
 //# sourceMappingURL=apu.js.map

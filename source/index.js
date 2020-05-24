@@ -101,14 +101,14 @@ define(["require", "exports", "./input_controller", "./nes"], function (require,
             //test 6
             result = this.nes.memory.ram[0x406];
             console.log('test6 result: ' + result);
-            if (result != 0x30) {
+            if (result != 0x92) {
                 console.log('test6 failed');
                 testsPassed = false;
             }
             //test 7
             result = this.nes.memory.ram[0x407];
             console.log('test7 result: ' + result);
-            if (result != 0xE0) {
+            if (result != 0x84) {
                 console.log('test7 failed');
                 testsPassed = false;
             }

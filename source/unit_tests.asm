@@ -1,6 +1,6 @@
 ;UNIT TESTS ROM
   
-  .inesprg 1   ; 1x 16KB PRG code
+  .inesprg 2   ; 1x 16KB PRG code
   .ineschr 1   ; 1x  8KB CHR data
   .inesmap 0   ; mapper 0 = NROM, no bank swapping
   .inesmir 1   ; background mirroring
@@ -684,7 +684,7 @@ jumpspeed   .rs 1 ;has to be greater than gravity
 ; myaddress   .rs 1
 
   .bank 0
-  .org $C000 
+  .org $8000 
 RESET:
   SEI          ; disable IRQs
   CLD          ; disable decimal mode
@@ -1532,8 +1532,6 @@ UpdateBackgroundName:
   RTS
   
   
-  .bank 1
-  .org $E000
 
 
 
@@ -1592,6 +1590,4 @@ VRAMTableLow2:
 ;;;;;;;;;;;;;;  
   
   
-  .bank 2
-  .org $0000
   .incbin "alternate.chr"
